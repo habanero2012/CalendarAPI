@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 import jp.live.hsato1101.calendar.GoogleCalendar;
 import jp.live.hsato1101.calendar.GoogleCalendarFactory;
-import jp.live.hsato1101.calendar.Schedule;
+import jp.live.hsato1101.calendar.Event;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Bundle;
@@ -33,10 +33,10 @@ public class MainActivity extends Activity {
 		    	start.set(2012, 10, 1, 10, 00);
 		    	Calendar end = Calendar.getInstance();
 		    	end.set(2012, 10, 10, 12, 00);
-		    	Schedule[] schedules = mGoogleCalendar.select(start, end);
+		    	Event[] schedules = mGoogleCalendar.select(start, end);
 		    	
 		    	StringBuilder text = new StringBuilder();
-		    	for(Schedule s : schedules) {
+		    	for(Event s : schedules) {
 		    		text.append(s.toString() + "\n");
 		    	}
 		    	textView.setText(text.toString());
@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
 				Calendar start = Calendar.getInstance();
 				Calendar end = Calendar.getInstance();
 				end.add(Calendar.HOUR, 1);
-				Schedule s = new Schedule(0, "titleです", "descです", "", start, end, "0");
+				Event s = new Event(0, "titleです", "descです", "", start, end);
 				mGoogleCalendar.insert(s);
 			}
 		});

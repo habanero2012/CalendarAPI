@@ -1,26 +1,27 @@
 package jp.live.hsato1101.calendar;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 
-public class Schedule {
+public class Event {
 
+	private final DateFormat mDateFormat = DateFormat.getInstance();
+	
 	private int mId;
 	private String mTitle;
 	private String mDescription;
 	private String mEventLocation;
 	private Calendar mStart;
 	private Calendar mEnd;
-	private String mEventId;
 	
-	public Schedule(int id, String title, String description,
-			String eventLocation, Calendar start, Calendar end, String eventId) {
+	public Event(int id, String title, String description,
+			String eventLocation, Calendar start, Calendar end) {
 		mId = id;
 		mTitle = title;
 		mDescription = description;
 		mEventLocation = eventLocation;
 		mStart = start;
 		mEnd = end;
-		mEventId = eventId;
 	}
 
 	public int getId(){
@@ -55,12 +56,11 @@ public class Schedule {
 		return mEnd.getTimeInMillis();
 	}
 	
-	public String getEventId() {
-		return mEventId;
-	}
-	
 	@Override
 	public String toString() {
-		return "ID:" + mId + " Title:" + mTitle + " DESC:" + mDescription;
+		return "ID:" + mId + " Title:" + mTitle + " DESC:" + mDescription +
+				" EventLocation:" + mEventLocation + 
+				" Start:" + mDateFormat.format(mStart.getTime()) +
+				" End:" + mDateFormat.format(mEnd.getTime());
 	}
 }

@@ -2,9 +2,10 @@ package jp.live.hsato1101.calendar.v4;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import jp.live.hsato1101.calendar.GoogleCalendar;
-import jp.live.hsato1101.calendar.Schedule;
+import jp.live.hsato1101.calendar.Event;
 
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
@@ -38,53 +39,60 @@ public class GoogleCalendarV4 implements GoogleCalendar {
 		mResolver = context.getContentResolver();
 	}
 
-	public boolean insert(Schedule s) {
+	public boolean insert(Event e) {
     	ContentValues values = new ContentValues();
-    	values.put(CalendarContract.Events.DTSTART, s.getStartTimeInMillis());
-    	values.put(CalendarContract.Events.DTEND, s.getEndTimeInMillis());
-    	values.put(CalendarContract.Events.TITLE, s.getTitle());
-    	values.put(CalendarContract.Events.DESCRIPTION, s.getDescription());
+    	values.put(CalendarContract.Events.DTSTART, e.getStartTimeInMillis());
+    	values.put(CalendarContract.Events.DTEND, e.getEndTimeInMillis());
+    	values.put(CalendarContract.Events.TITLE, e.getTitle());
+    	values.put(CalendarContract.Events.DESCRIPTION, e.getDescription());
     	values.put(CalendarContract.Events.EVENT_TIMEZONE, "Asia/Tokyo");
     	values.put(CalendarContract.Events.CALENDAR_ID, 1);
     	mResolver.insert(CalendarContract.Events.CONTENT_URI, values);
 		return true;
 	}
 
-	public boolean update(Schedule schedule) {
+	public boolean update(Event schedule) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean delete(Schedule schedule) {
+	public boolean delete(Event schedule) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public Schedule[] select(Calendar start, Calendar end) {
+	public Event[] select(Calendar start, Calendar end) {
 		Uri uri = buildQueryUri(toJulianDay(start), toJulianDay(end));
 		Cursor c = mResolver.query(uri, PROJECTION, null, null, SORT_ORDER);
-		ArrayList<Schedule> result = new ArrayList<Schedule>();
+		ArrayList<Event> result = new ArrayList<Event>();
 		
 		if(c.moveToFirst()) {
 		    int idColumn = c.getColumnIndex(Instances._ID);
 		    int titleColumn = c.getColumnIndex(Instances.TITLE);
 		    int descColumn = c.getColumnIndex(Instances.DESCRIPTION);
 		    int eventLocationColumn = c.getColumnIndex(Instances.EVENT_LOCATION);
+		    int beginColumn = c.getColumnIndex(Instances.BEGIN);
+		    int endColumn = c.getColumnIndex(Instances.END);
 		    do {
-		    	Schedule s = new Schedule(
+		    	Calendar startTime = new GregorianCalendar();
+		    	startTime.setTimeInMillis(c.getLong(beginColumn));
+		    	Calendar endTime = new GregorianCalendar();
+		    	endTime.setTimeInMillis(c.getLong(endColumn));
+		    	
+		    	Event s = new Event(
 		    			c.getInt(idColumn),
 		    			c.getString(titleColumn),
 		    			c.getString(descColumn),
 		    			c.getString(eventLocationColumn),
-		    			null, 
-		    			null,
-		    			"");
+		    			startTime, 
+		    			endTime);
 		    	result.add(s);
 		    } while(c.moveToNext());
 		}
-
-
-		return result.toArray(new Schedule[0]);
+		
+		c.close();
+		
+		return result.toArray(new Event[0]);
 	}
 	
 	private int toJulianDay(Calendar cal) {
