@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import jp.live.hsato1101.calendar.GoogleCalendar;
 import jp.live.hsato1101.calendar.Event;
-
+import jp.live.hsato1101.calendar.GoogleCalendar;
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -27,7 +27,8 @@ public class GoogleCalendarV4 implements GoogleCalendar {
 			Instances.DESCRIPTION,
 			Instances.EVENT_LOCATION,
 			Instances.BEGIN,
-			Instances.END
+			Instances.END,
+			Instances.EVENT_ID
 			};
 	private static final String SORT_ORDER = Instances.BEGIN + " ASC, " + 
 			Instances.END + " DESC, " + 
@@ -45,20 +46,29 @@ public class GoogleCalendarV4 implements GoogleCalendar {
     	values.put(CalendarContract.Events.DTEND, e.getEndTimeInMillis());
     	values.put(CalendarContract.Events.TITLE, e.getTitle());
     	values.put(CalendarContract.Events.DESCRIPTION, e.getDescription());
+    	values.put(CalendarContract.Events.EVENT_LOCATION, e.getEventLocation());
     	values.put(CalendarContract.Events.EVENT_TIMEZONE, "Asia/Tokyo");
     	values.put(CalendarContract.Events.CALENDAR_ID, 1);
     	mResolver.insert(CalendarContract.Events.CONTENT_URI, values);
 		return true;
 	}
-
-	public boolean update(Event schedule) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	public int update(Event e) {
+    	ContentValues values = new ContentValues();
+    	values.put(CalendarContract.Events.DTSTART, e.getStartTimeInMillis());
+    	values.put(CalendarContract.Events.DTEND, e.getEndTimeInMillis());
+    	values.put(CalendarContract.Events.TITLE, e.getTitle());
+    	values.put(CalendarContract.Events.DESCRIPTION, e.getDescription());
+    	values.put(CalendarContract.Events.EVENT_TIMEZONE, "Asia/Tokyo");
+    	return mResolver.update(toUri(e), values, null, null);
 	}
 
-	public boolean delete(Event schedule) {
-		// TODO Auto-generated method stub
-		return false;
+	public int delete(Event e) {
+		return mResolver.delete(toUri(e), null, null);
+	}
+	
+	private Uri toUri(Event e) {
+		return ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, e.getId());
 	}
 
 	public Event[] select(Calendar start, Calendar end) {
@@ -67,12 +77,12 @@ public class GoogleCalendarV4 implements GoogleCalendar {
 		ArrayList<Event> result = new ArrayList<Event>();
 		
 		if(c.moveToFirst()) {
-		    int idColumn = c.getColumnIndex(Instances._ID);
 		    int titleColumn = c.getColumnIndex(Instances.TITLE);
 		    int descColumn = c.getColumnIndex(Instances.DESCRIPTION);
 		    int eventLocationColumn = c.getColumnIndex(Instances.EVENT_LOCATION);
 		    int beginColumn = c.getColumnIndex(Instances.BEGIN);
 		    int endColumn = c.getColumnIndex(Instances.END);
+		    int eventIdColumn = c.getColumnIndex(Instances.EVENT_ID);
 		    do {
 		    	Calendar startTime = new GregorianCalendar();
 		    	startTime.setTimeInMillis(c.getLong(beginColumn));
@@ -80,7 +90,7 @@ public class GoogleCalendarV4 implements GoogleCalendar {
 		    	endTime.setTimeInMillis(c.getLong(endColumn));
 		    	
 		    	Event s = new Event(
-		    			c.getInt(idColumn),
+		    			c.getLong(eventIdColumn),
 		    			c.getString(titleColumn),
 		    			c.getString(descColumn),
 		    			c.getString(eventLocationColumn),

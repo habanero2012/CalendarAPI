@@ -30,14 +30,14 @@ public class MainActivity extends Activity {
 			
 			public void onClick(View v) {
 		    	Calendar start = Calendar.getInstance();
-		    	start.set(2012, 10, 1, 10, 00);
+		    	start.set(Calendar.DAY_OF_MONTH, 1);
 		    	Calendar end = Calendar.getInstance();
-		    	end.set(2012, 10, 10, 12, 00);
-		    	Event[] schedules = mGoogleCalendar.select(start, end);
+		    	end.add(Calendar.MONTH, 1);
+		    	Event[] events = mGoogleCalendar.select(start, end);
 		    	
 		    	StringBuilder text = new StringBuilder();
-		    	for(Event s : schedules) {
-		    		text.append(s.toString() + "\n");
+		    	for(Event e : events) {
+		    		text.append(e.toString() + "\n");
 		    	}
 		    	textView.setText(text.toString());
 			}
@@ -50,8 +50,51 @@ public class MainActivity extends Activity {
 				Calendar start = Calendar.getInstance();
 				Calendar end = Calendar.getInstance();
 				end.add(Calendar.HOUR, 1);
-				Event s = new Event(0, "titleです", "descです", "", start, end);
-				mGoogleCalendar.insert(s);
+				Event e = new Event(0, "Insertです", "descです", "場所です", start, end);
+				mGoogleCalendar.insert(e);
+			}
+		});
+        
+        Button deleteBtn = (Button)findViewById(R.id.delete_btn);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View arg0) {
+		    	Calendar start = Calendar.getInstance();
+		    	start.set(Calendar.DAY_OF_MONTH, 1);
+		    	Calendar end = Calendar.getInstance();
+		    	end.add(Calendar.MONTH, 1);
+		    	Event[] evetns = mGoogleCalendar.select(start, end);
+		    	for(Event e: evetns) {
+		    		e.setTitle("UPDATE!");
+		    		mGoogleCalendar.update(e);
+		    		mGoogleCalendar.delete(e);
+		    		break; // 1件だけ削除する
+		    	}
+			}
+		});
+        
+        Button updateBtn = (Button)findViewById(R.id.update_btn);
+        updateBtn.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View arg0) {
+		    	Calendar start = Calendar.getInstance();
+		    	start.set(Calendar.DAY_OF_MONTH, 1);
+		    	Calendar end = Calendar.getInstance();
+		    	end.add(Calendar.MONTH, 1);
+		    	Event[] evetns = mGoogleCalendar.select(start, end);
+		    	for(Event e: evetns) {
+		    		e.setTitle("UPDATE!");
+		    		
+		    		Calendar e_start = e.getStart();
+					e_start.add(Calendar.DATE, 1);
+					e.setStart(e_start);
+					Calendar e_end = e.getEnd();
+					e_end.add(Calendar.DATE, 1);
+					e.setEnd(e_end);
+		    		
+		    		mGoogleCalendar.update(e);
+		    		break;
+		    	}
 			}
 		});
     }
@@ -60,42 +103,6 @@ public class MainActivity extends Activity {
 	@Override
     protected void onResume() {
     	super.onResume();
-    	/*
-    	String[] projection = new String[] { "_id", "name" };
-    	Uri calendars = CalendarContract.Calendars.CONTENT_URI;
-    	Cursor c = managedQuery(calendars, projection, null, null, null);
-    	if (c.moveToFirst()) {
-    	    String name;
-    	    String id;
-    	    int nameColumn = c.getColumnIndex("name");
-    	    int idColumn = c.getColumnIndex("_id");
-    	    do {
-    	        name = c.getString(nameColumn);
-    	        id = c.getString(idColumn);
-    	        Log.d("Calendar Data", "id=" + id + ",name=" + name);
-    	    } while (c.moveToNext());
-    	}
-    	
-    	long startMillis = 0;
-    	long endMillis = 0;
-    	Calendar beginTime = Calendar.getInstance();
-    	beginTime.set(2012, 10, 10, 10, 00);
-    	startMillis = beginTime.getTimeInMillis();
-    	Calendar endTime = Calendar.getInstance();
-    	endTime.set(2012, 10, 10, 12, 00);
-    	endMillis = endTime.getTimeInMillis();
-    	 
-    	//イベントデータを登録
-    	ContentResolver cr = getContentResolver();
-    	ContentValues values = new ContentValues();
-    	values.put(CalendarContract.Events.DTSTART, startMillis);
-    	values.put(CalendarContract.Events.DTEND, endMillis);
-    	values.put(CalendarContract.Events.TITLE, "テストイベント");
-    	values.put(CalendarContract.Events.DESCRIPTION, "これはテストイベントです。");
-    	values.put(CalendarContract.Events.CALENDAR_ID, 1);
-    	values.put(CalendarContract.Events.EVENT_TIMEZONE, "Asia/Tokyo");
-    	Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
-    	*/
     }
 
     @Override

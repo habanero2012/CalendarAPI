@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 public interface GoogleCalendar {
 	public boolean insert(Event schedule);
-	public boolean update(Event schedule);
-	public boolean delete(Event schedule);
+	public int update(Event schedule);
+	public int delete(Event schedule);
 	public Event[] select(Calendar start, Calendar end);
 }

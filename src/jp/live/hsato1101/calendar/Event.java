@@ -7,24 +7,24 @@ public class Event {
 
 	private final DateFormat mDateFormat = DateFormat.getInstance();
 	
-	private int mId;
+	private long mId;
 	private String mTitle;
 	private String mDescription;
 	private String mEventLocation;
 	private Calendar mStart;
 	private Calendar mEnd;
 	
-	public Event(int id, String title, String description,
+	public Event(long id, String title, String description,
 			String eventLocation, Calendar start, Calendar end) {
 		mId = id;
 		mTitle = title;
 		mDescription = description;
 		mEventLocation = eventLocation;
-		mStart = start;
-		mEnd = end;
+		mStart = (Calendar)start.clone();
+		mEnd = (Calendar)end.clone();
 	}
 
-	public int getId(){
+	public long getId(){
 		return mId;
 	}
 	
@@ -32,16 +32,32 @@ public class Event {
 		return mTitle;
 	}
 	
+	public void setTitle(String title) {
+		mTitle = title;
+	}
+	
 	public String getDescription(){
 		return mDescription;
+	}
+	
+	public void setDescription(String desc) {
+		mDescription = desc;
 	}
 	
 	public String getEventLocation() {
 		return mEventLocation;
 	}
 	
+	public void setEventLocation(String eventLocation) {
+		mEventLocation = eventLocation;
+	}
+	
 	public Calendar getStart() {
-		return mStart;
+		return (Calendar)mStart.clone();
+	}
+	
+	public void setStart(Calendar start) {
+		mStart = (Calendar) start.clone();
 	}
 	
 	public long getStartTimeInMillis() {
@@ -49,7 +65,11 @@ public class Event {
 	}
 	
 	public Calendar getEnd() {
-		return mEnd;
+		return (Calendar)mEnd.clone();
+	}
+	
+	public void setEnd(Calendar end) {
+		mEnd = (Calendar) end.clone();
 	}
 	
 	public long getEndTimeInMillis() {

@@ -25,6 +25,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete" />
+
+         <Button
+             android:id="@+id/update_btn"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Update" />
+
     </LinearLayout>
 
     <ScrollView
