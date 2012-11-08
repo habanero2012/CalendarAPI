@@ -20,7 +20,6 @@ import android.text.format.Time;
 @TargetApi(14)
 public class GoogleCalendarV4 implements GoogleCalendar {
 
-	private static final Uri SELECT_URI = CalendarContract.Instances.CONTENT_BY_DAY_URI;
 	private static final String[] PROJECTION = {
 			Instances._ID,
 			Instances.TITLE,
@@ -35,9 +34,11 @@ public class GoogleCalendarV4 implements GoogleCalendar {
 			Instances.TITLE + " ASC";
 	
 	private final ContentResolver mResolver;
+	private final int mCalendarId;
 	
 	public GoogleCalendarV4(Context context) {
 		mResolver = context.getContentResolver();
+		mCalendarId = getCalendarId();
 	}
 
 	public boolean insert(Event e) {
@@ -48,7 +49,7 @@ public class GoogleCalendarV4 implements GoogleCalendar {
     	values.put(CalendarContract.Events.DESCRIPTION, e.getDescription());
     	values.put(CalendarContract.Events.EVENT_LOCATION, e.getEventLocation());
     	values.put(CalendarContract.Events.EVENT_TIMEZONE, "Asia/Tokyo");
-    	values.put(CalendarContract.Events.CALENDAR_ID, 1);
+    	values.put(CalendarContract.Events.CALENDAR_ID, mCalendarId);
     	mResolver.insert(CalendarContract.Events.CONTENT_URI, values);
 		return true;
 	}
@@ -101,7 +102,7 @@ public class GoogleCalendarV4 implements GoogleCalendar {
 		}
 		
 		c.close();
-		
+		getCalendarId();
 		return result.toArray(new Event[0]);
 	}
 	
@@ -114,7 +115,18 @@ public class GoogleCalendarV4 implements GoogleCalendar {
 		path.append(start);
 		path.append("/");
 		path.append(end);
-		return Uri.withAppendedPath(SELECT_URI, path.toString());
+		return Uri.withAppendedPath(CalendarContract.Instances.CONTENT_BY_DAY_URI, path.toString());
+	}
+	
+	private int getCalendarId() {
+		int calendarId = 1;
+		Cursor c = mResolver.query(CalendarContract.Calendars.CONTENT_URI, null, null, null, CalendarContract.Calendars._ID + " ASC");
+		if(c.moveToFirst()) {
+			int idColumn = c.getColumnIndex(CalendarContract.Calendars._ID);
+			calendarId = c.getInt(idColumn); // 最初の一つ目をカレンダーIDとして使用する
+		}
+		c.close();
+		return calendarId;
 	}
 
 }
