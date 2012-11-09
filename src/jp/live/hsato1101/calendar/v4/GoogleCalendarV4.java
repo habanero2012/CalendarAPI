@@ -18,7 +18,7 @@ import android.provider.CalendarContract.Instances;
 import android.text.format.Time;
 
 @TargetApi(14)
-public class GoogleCalendarV4 implements GoogleCalendar {
+public class GoogleCalendarV4 extends GoogleCalendar {
 
 	private static final String[] PROJECTION = {
 			Instances._ID,
@@ -37,6 +37,7 @@ public class GoogleCalendarV4 implements GoogleCalendar {
 	private final int mCalendarId;
 	
 	public GoogleCalendarV4(Context context) {
+		super(context, new EventColumnsV4(), new ContentURIsV4());
 		mResolver = context.getContentResolver();
 		mCalendarId = getCalendarId();
 	}

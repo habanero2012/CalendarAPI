@@ -9,7 +9,7 @@ import android.net.Uri;
 import jp.live.hsato1101.calendar.Event;
 import jp.live.hsato1101.calendar.GoogleCalendar;
 
-public class GoogleCalendarV2_2 implements GoogleCalendar {
+public class GoogleCalendarV2_2 {
 
 	private final static String AUTHORITY = "com.android.calendar";
 	private final static Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/events");
