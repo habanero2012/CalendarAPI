@@ -1,11 +1,11 @@
-package jp.live.hsato1101.calendar.v2;
+package jp.live.hsato1101.calendar.v2_2;
 
 import android.net.Uri;
 import jp.live.hsato1101.calendar.CalendarContentURIs;
 
-public class ContentURIsV2_1 extends CalendarContentURIs{
-
-	private final static String AUTHORITY = "calendar";
+public class ContentURIsV2_2 extends CalendarContentURIs {
+	
+	private final static String AUTHORITY = "com.android.calendar";
 	private final static Uri EVENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/events");
 	private final static Uri EVENT_BY_DAY_URI = Uri.parse("content://"

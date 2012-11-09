@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import jp.live.hsato1101.calendar.v2.ContentURIsV2_1;
-import jp.live.hsato1101.calendar.v2.EventColumnsV2_1;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -80,7 +78,7 @@ public class GoogleCalendar {
 			return mCalendarId;
 		}
 		
-		Cursor c = mResolver.query(mURIs.getCalendarUri(), null, null, null, null);
+		Cursor c = mResolver.query(mURIs.getCalendarUri(), null, null, null, BaseColumns._ID + " ASC");
 		if (c.moveToFirst()) {
 			int idColumn = c.getColumnIndex(BaseColumns._ID);
 			mCalendarId = c.getInt(idColumn);

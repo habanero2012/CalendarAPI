@@ -1,4 +1,4 @@
-package jp.live.hsato1101.calendar.v2;
+package jp.live.hsato1101.calendar.v2_1;
 
 import android.provider.BaseColumns;
 import jp.live.hsato1101.calendar.EventColumns;
