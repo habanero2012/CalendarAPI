@@ -9,25 +9,23 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.BaseColumns;
 
 public class GoogleCalendar {
-	private static final int NULL_CALENDAR_ID = -9999;
 	
 	private final ContentResolver mResolver;
 	private final EventColumns mEventColumns;
 	private final CalendarContentURIs mURIs;
-	
-	private  int mCalendarId = NULL_CALENDAR_ID; // mCalendarIdを直接使わずgetCalendarIdを呼ぶこと
+	private final int mCalendarId;
 
-	public GoogleCalendar(Context context, EventColumns eventColumns, CalendarContentURIs uris) {
+	public GoogleCalendar(Context context, EventColumns eventColumns, CalendarContentURIs uris, int calendar_id) {
 		mResolver = context.getContentResolver();
 		mEventColumns = eventColumns;
 		mURIs = uris;
+		mCalendarId = calendar_id;
 	}
 
 	public boolean insert(Event e) {
-		ContentValues values = mEventColumns.values(e, getCalendarId());
+		ContentValues values = mEventColumns.values(e, mCalendarId);
 		mResolver.insert(mURIs.getEventUri(), values);
 		return true;
 	}
@@ -44,7 +42,7 @@ public class GoogleCalendar {
 
 	public Event[] select(Calendar start, Calendar end) {
 		Uri uri = mURIs.buildByDayUri(start, end);
-		Cursor c = mResolver.query(uri, mEventColumns.getProjection(), null, null, mEventColumns.getSortOrder());
+		Cursor c = mResolver.query(uri, null, null, null, mEventColumns.getSortOrder());
 		ArrayList<Event> result = new ArrayList<Event>();
 
 		if (c.moveToFirst()) {
@@ -55,6 +53,7 @@ public class GoogleCalendar {
 			int beginColumn = c.getColumnIndex(mEventColumns.getBegin());
 			int endColumn = c.getColumnIndex(mEventColumns.getEnd());
 			int eventIdColumn = c.getColumnIndex(mEventColumns.getEventId());
+			//int calendarIdColumn = c.getColumnIndex(mEventColumns.getCalendarId());
 			
 			do {
 				Calendar startTime = new GregorianCalendar();
@@ -71,19 +70,5 @@ public class GoogleCalendar {
 
 		c.close();
 		return result.toArray(new Event[0]);
-	}
-	
-	private int getCalendarId() {
-		if(mCalendarId != NULL_CALENDAR_ID) {
-			return mCalendarId;
-		}
-		
-		Cursor c = mResolver.query(mURIs.getCalendarUri(), null, null, null, BaseColumns._ID + " ASC");
-		if (c.moveToFirst()) {
-			int idColumn = c.getColumnIndex(BaseColumns._ID);
-			mCalendarId = c.getInt(idColumn);
-		}
-		c.close();
-		return mCalendarId;
 	}
 }

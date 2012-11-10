@@ -15,7 +15,6 @@ public abstract class EventColumns {
 	public abstract String getCalendarId();
 	public abstract String getEventId();
 	
-	public abstract String[] getProjection();
 	public abstract String getSortOrder();
 	
 	public ContentValues values(Event e) {

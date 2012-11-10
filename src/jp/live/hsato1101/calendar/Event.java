@@ -76,6 +76,7 @@ public class Event {
 		return mEnd.getTimeInMillis();
 	}
 	
+	
 	@Override
 	public String toString() {
 		return "ID:" + mId + " Title:" + mTitle + " DESC:" + mDescription +

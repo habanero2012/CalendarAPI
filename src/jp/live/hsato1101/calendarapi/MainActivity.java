@@ -65,8 +65,6 @@ public class MainActivity extends Activity {
 		    	end.add(Calendar.MONTH, 1);
 		    	Event[] evetns = mGoogleCalendar.select(start, end);
 		    	for(Event e: evetns) {
-		    		e.setTitle("UPDATE!");
-		    		mGoogleCalendar.update(e);
 		    		mGoogleCalendar.delete(e);
 		    		break; // 1件だけ削除する
 		    	}

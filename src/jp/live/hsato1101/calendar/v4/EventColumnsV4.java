@@ -6,9 +6,6 @@ import jp.live.hsato1101.calendar.EventColumns;
 
 public class EventColumnsV4 extends EventColumns {
 
-	private static final String[] PROJECTION = { Instances._ID,
-			Instances.TITLE, Instances.DESCRIPTION, Instances.EVENT_LOCATION,
-			Instances.BEGIN, Instances.END, Instances.EVENT_ID };
 	private static final String SORT_ORDER = Instances.BEGIN + " ASC, "
 			+ Instances.END + " DESC, " + Instances.TITLE + " ASC";
 
@@ -60,11 +57,6 @@ public class EventColumnsV4 extends EventColumns {
 	@Override
 	public String getEventId() {
 		return Instances.EVENT_ID;
-	}
-
-	@Override
-	public String[] getProjection() {
-		return PROJECTION;
 	}
 
 	@Override
