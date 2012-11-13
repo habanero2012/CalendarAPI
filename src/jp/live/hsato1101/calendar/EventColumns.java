@@ -14,6 +14,7 @@ public abstract class EventColumns {
 	public abstract String getEventTimezone();
 	public abstract String getCalendarId();
 	public abstract String getEventId();
+	public abstract String getAllDay();
 	
 	public abstract String getSortOrder();
 	
@@ -25,6 +26,7 @@ public abstract class EventColumns {
     	values.put(getDescription(), e.getDescription());
     	values.put(getEventLocation(), e.getEventLocation());
     	values.put(getEventTimezone(), "Asia/Tokyo");
+    	values.put(getAllDay(), e.getAllDay());
     	return values;
 	}
 	

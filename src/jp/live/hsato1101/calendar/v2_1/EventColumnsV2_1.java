@@ -14,6 +14,7 @@ public class EventColumnsV2_1 extends EventColumns {
 	public static final String DTEND = "dtend";
 	public static final String EVENT_TIMEZONE = "eventTimezone";
 	public static final String CALENDAR_ID = "calendar_id";
+	public static final String ALL_DAY = "allDay";
 
 	public static final String SORT_ORDER = BEGIN + " ASC, " + END + " DESC, "
 			+ TITLE + " ASC";
@@ -71,6 +72,12 @@ public class EventColumnsV2_1 extends EventColumns {
 	@Override
 	public String getEventId() {
 		return EVENT_ID;
+	}
+
+	@Override
+	public String getAllDay() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -13,15 +13,17 @@ public class Event {
 	private String mEventLocation;
 	private Calendar mStart;
 	private Calendar mEnd;
+	private int mAllDay;
 	
 	public Event(long id, String title, String description,
-			String eventLocation, Calendar start, Calendar end) {
+			String eventLocation, Calendar start, Calendar end, int allday) {
 		mId = id;
 		mTitle = title;
 		mDescription = description;
 		mEventLocation = eventLocation;
 		mStart = (Calendar)start.clone();
 		mEnd = (Calendar)end.clone();
+		mAllDay = allday;
 	}
 
 	public long getId(){
@@ -76,12 +78,17 @@ public class Event {
 		return mEnd.getTimeInMillis();
 	}
 	
+	public int getAllDay() {
+		return mAllDay;
+	}
+	
 	
 	@Override
 	public String toString() {
 		return "ID:" + mId + " Title:" + mTitle + " DESC:" + mDescription +
 				" EventLocation:" + mEventLocation + 
 				" Start:" + mDateFormat.format(mStart.getTime()) +
-				" End:" + mDateFormat.format(mEnd.getTime());
+				" End:" + mDateFormat.format(mEnd.getTime()) +
+				" AllDay:" + mAllDay;
 	}
 }

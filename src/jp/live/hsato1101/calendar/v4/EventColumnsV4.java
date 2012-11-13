@@ -11,17 +11,17 @@ public class EventColumnsV4 extends EventColumns {
 
 	@Override
 	public String getTitle() {
-		return Instances.TITLE;
+		return Events.TITLE;
 	}
 
 	@Override
 	public String getDescription() {
-		return Instances.DESCRIPTION;
+		return Events.DESCRIPTION;
 	}
 
 	@Override
 	public String getEventLocation() {
-		return Instances.EVENT_LOCATION;
+		return Events.EVENT_LOCATION;
 	}
 
 	@Override
@@ -62,6 +62,11 @@ public class EventColumnsV4 extends EventColumns {
 	@Override
 	public String getSortOrder() {
 		return SORT_ORDER;
+	}
+
+	@Override
+	public String getAllDay() {
+		return Events.ALL_DAY;
 	}
 
 }

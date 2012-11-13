@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
 				Calendar start = Calendar.getInstance();
 				Calendar end = Calendar.getInstance();
 				end.add(Calendar.HOUR, 1);
-				Event e = new Event(0, "Insertです", "descです", "場所です", start, end);
+				Event e = new Event(0, "Insertです", "descです", "場所です", start, end, 0);
 				mGoogleCalendar.insert(e);
 			}
 		});
