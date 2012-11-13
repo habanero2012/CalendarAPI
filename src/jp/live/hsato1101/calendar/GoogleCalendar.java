@@ -55,6 +55,7 @@ public class GoogleCalendar {
 			int eventIdColumn = c.getColumnIndex(mEventColumns.getEventId());
 			//int calendarIdColumn = c.getColumnIndex(mEventColumns.getCalendarId());
 			int allDayColumn = c.getColumnIndex(mEventColumns.getAllDay());
+			int lastDateColumn = c.getColumnIndex(mEventColumns.getLastDate());
 			
 			do {
 				Calendar startTime = new GregorianCalendar();
@@ -62,10 +63,14 @@ public class GoogleCalendar {
 				Calendar endTime = new GregorianCalendar();
 				endTime.setTimeInMillis(c.getLong(endColumn));
 				
+				Calendar lastDate = new GregorianCalendar();
+				lastDate.setTimeInMillis(c.getLong(lastDateColumn));
+				
 				Event s = new Event(c.getLong(eventIdColumn),
 						c.getString(titleColumn), c.getString(descColumn),
 						c.getString(eventLocationColumn), startTime, endTime,
 						c.getInt(allDayColumn));
+				s.setLastDate(lastDate);
 				result.add(s);
 			} while (c.moveToNext());
 		}

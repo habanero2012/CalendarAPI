@@ -14,6 +14,7 @@ public class Event {
 	private Calendar mStart;
 	private Calendar mEnd;
 	private int mAllDay;
+	private Calendar mLastDate;
 	
 	public Event(long id, String title, String description,
 			String eventLocation, Calendar start, Calendar end, int allday) {
@@ -82,6 +83,14 @@ public class Event {
 		return mAllDay;
 	}
 	
+	public void setLastDate(Calendar lastDate) {
+		mLastDate = (Calendar)lastDate.clone();
+	}
+	
+	public Calendar getLastDate() {
+		return (Calendar) mLastDate.clone();
+	}
+	
 	
 	@Override
 	public String toString() {
@@ -89,6 +98,7 @@ public class Event {
 				" EventLocation:" + mEventLocation + 
 				" Start:" + mDateFormat.format(mStart.getTime()) +
 				" End:" + mDateFormat.format(mEnd.getTime()) +
-				" AllDay:" + mAllDay;
+				" AllDay:" + mAllDay +
+				" LastDate:" + mDateFormat.format(mLastDate.getTime());
 	}
 }

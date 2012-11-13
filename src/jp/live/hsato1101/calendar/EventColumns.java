@@ -15,6 +15,7 @@ public abstract class EventColumns {
 	public abstract String getCalendarId();
 	public abstract String getEventId();
 	public abstract String getAllDay();
+	public abstract String getLastDate();
 	
 	public abstract String getSortOrder();
 	

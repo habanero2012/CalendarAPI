@@ -69,4 +69,9 @@ public class EventColumnsV4 extends EventColumns {
 		return Events.ALL_DAY;
 	}
 
+	@Override
+	public String getLastDate() {
+		return Events.LAST_DATE;
+	}
+
 }
