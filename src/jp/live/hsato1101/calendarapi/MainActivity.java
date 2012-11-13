@@ -25,15 +25,33 @@ public class MainActivity extends Activity {
         mGoogleCalendar = GoogleCalendarFactory.getInstance(this);
         
         final TextView textView = (TextView)findViewById(R.id.textView1);
-        Button selectBtn = (Button)findViewById(R.id.select_btn);
-        selectBtn.setOnClickListener(new View.OnClickListener() {
+        Button whenByBtn = (Button)findViewById(R.id.when_by_btn);
+        whenByBtn.setOnClickListener(new View.OnClickListener() {
 			
 			public void onClick(View v) {
 		    	Calendar start = Calendar.getInstance();
 		    	start.set(Calendar.DAY_OF_MONTH, 1);
 		    	Calendar end = Calendar.getInstance();
 		    	end.add(Calendar.MONTH, 1);
-		    	Event[] events = mGoogleCalendar.select(start, end);
+		    	Event[] events = mGoogleCalendar.selectInstance(start, end);
+		    	
+		    	StringBuilder text = new StringBuilder();
+		    	for(Event e : events) {
+		    		text.append(e.toString() + "\n");
+		    	}
+		    	textView.setText(text.toString());
+			}
+		});
+        
+        Button selectBtn = (Button)findViewById(R.id.select_btn);
+        selectBtn.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+		    	Calendar start = Calendar.getInstance();
+		    	start.set(Calendar.DAY_OF_MONTH, 13);
+		    	start.set(Calendar.HOUR_OF_DAY, 0);
+
+		    	Event[] events = mGoogleCalendar.select(start);
 		    	
 		    	StringBuilder text = new StringBuilder();
 		    	for(Event e : events) {
@@ -63,7 +81,7 @@ public class MainActivity extends Activity {
 		    	start.set(Calendar.DAY_OF_MONTH, 1);
 		    	Calendar end = Calendar.getInstance();
 		    	end.add(Calendar.MONTH, 1);
-		    	Event[] evetns = mGoogleCalendar.select(start, end);
+		    	Event[] evetns = mGoogleCalendar.selectInstance(start, end);
 		    	for(Event e: evetns) {
 		    		mGoogleCalendar.delete(e);
 		    		break; // 1件だけ削除する
@@ -79,7 +97,7 @@ public class MainActivity extends Activity {
 		    	start.set(Calendar.DAY_OF_MONTH, 1);
 		    	Calendar end = Calendar.getInstance();
 		    	end.add(Calendar.MONTH, 1);
-		    	Event[] evetns = mGoogleCalendar.select(start, end);
+		    	Event[] evetns = mGoogleCalendar.selectInstance(start, end);
 		    	for(Event e: evetns) {
 		    		e.setTitle("UPDATE!");
 		    		

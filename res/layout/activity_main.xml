@@ -11,10 +11,10 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/select_btn"
+            android:id="@+id/when_by_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select" />
+            android:text="WhenBy" />
         <Button
         android:id="@+id/insert_btn"
         android:layout_width="wrap_content"
@@ -33,6 +33,12 @@
              android:text="Update" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/select_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select" />
 
     <ScrollView
         android:id="@+id/scrollView1"
