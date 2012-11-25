@@ -94,11 +94,15 @@ public class Event {
 	
 	@Override
 	public String toString() {
-		return "ID:" + mId + " Title:" + mTitle + " DESC:" + mDescription +
+		String log = "ID:" + mId + " Title:" + mTitle + " DESC:" + mDescription +
 				" EventLocation:" + mEventLocation + 
 				" Start:" + mDateFormat.format(mStart.getTime()) +
 				" End:" + mDateFormat.format(mEnd.getTime()) +
-				" AllDay:" + mAllDay +
-				" LastDate:" + mDateFormat.format(mLastDate.getTime());
+				" AllDay:" + mAllDay;
+		if(mLastDate !=null) {
+			log += " LastDate:" + mDateFormat.format(mLastDate.getTime());
+		}
+		
+		return log;
 	}
 }
