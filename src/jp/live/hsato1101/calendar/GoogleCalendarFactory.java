@@ -17,6 +17,14 @@ public class GoogleCalendarFactory {
 	private static final int ICE_CREAM_SANDWICH = 14;
 	private static final int FROYO = 8;
 	
+	/**
+	 * GoogleCalendarクラスを作成する
+	 * 
+	 * 使用できるgoogleアカウントが無い場合はnullを返す
+	 * 
+	 * @param context
+	 * @return GoogleCalendar
+	 */
 	public static GoogleCalendar getInstance(Context context) {
 		CalendarInfo info = getCalendarInfoHasGoogleSyncAccount(context);
 		if(info == null) {
