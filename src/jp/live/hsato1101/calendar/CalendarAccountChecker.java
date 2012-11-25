@@ -20,6 +20,10 @@ public abstract class CalendarAccountChecker {
 	
 	public CalendarInfo getGoogleSyncAccount() {
 		Cursor c = mResolver.query(mURIs.getCalendarUri(), null, null, null, BaseColumns._ID + " ASC");
+		if(c == null) {
+			return null;
+		}
+		
 		if (c.moveToFirst()) {
 			int idColumn = c.getColumnIndex(BaseColumns._ID);
 			int accountNameColumn = c.getColumnIndex(getCalendarColumnAccountName());
