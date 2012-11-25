@@ -25,10 +25,9 @@ public class GoogleCalendar {
 		mCalendarId = calendar_id;
 	}
 
-	public boolean insert(Event e) {
+	public Uri insert(Event e) {
 		ContentValues values = mEventColumns.values(e, mCalendarId);
-		mResolver.insert(mURIs.getEventUri(), values);
-		return true;
+		return mResolver.insert(mURIs.getEventUri(), values);
 	}
 
 	public int update(Event e) {
