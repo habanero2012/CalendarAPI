@@ -38,6 +38,8 @@ public abstract class CalendarAccountChecker {
 				}
 			} while(c.moveToNext());
 		}
+		c.close();
+		
 		return null;
 	}
 }
