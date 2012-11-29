@@ -30,7 +30,6 @@ public class GoogleCalendarFactory {
 		if(info == null) {
 			return null;
 		}
-		
 		Log.i("GoogleCalendarFactory", "CalendarInfo found:" + info.toString());
 		
 		
@@ -52,7 +51,7 @@ public class GoogleCalendarFactory {
 		} else {
 			checker = new CalendarAccountCheckerV2(context, new ContentURIsV2_1());
 		}
-		
+
 		return checker.getGoogleSyncAccount();
 	}
 }

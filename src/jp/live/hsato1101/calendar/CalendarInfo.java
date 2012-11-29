@@ -5,11 +5,15 @@ public class CalendarInfo {
 	private int mId;
 	private String mAccountName;
 	private String mAccountType;
+	private String mAccessLevel;
+	private String mSyncEvents;
 
-	public CalendarInfo(int id, String accountName, String accountType) {
+	public CalendarInfo(int id, String accountName, String accountType, String accessLevel, String syncEvents) {
 		mId = id;
 		mAccountName = accountName;
 		mAccountType = accountType;
+		mAccessLevel = accessLevel;
+		mSyncEvents = syncEvents;
 	}
 	
 	public int getId() {
@@ -17,10 +21,21 @@ public class CalendarInfo {
 	}
 	
 	public boolean isGoogleSyncAccount() {
-		if(isGoogleAccount() && isSyncAccount()) {
+		if(isGoogleAccount() && 
+			isSyncAccount() &&
+			isAccessLevelOwner() &&
+			isSyncEvents()) {
 			return true;
 		}
 		return false;
+	}
+	
+	private boolean isSyncEvents() {
+		return mSyncEvents.equals("1");
+	}
+	
+	private boolean isAccessLevelOwner() {
+		return mAccessLevel.equals("700");
 	}
 	
 	private boolean isGoogleAccount() {
@@ -36,6 +51,10 @@ public class CalendarInfo {
 	
 	@Override
 	public String toString() {
-		return super.toString() + " Calendar ID:" + mId + " AccountName:" + mAccountName + " AccountType:" + mAccountType;
+		return super.toString() + " Calendar ID:" + mId + 
+				" AccountName:" + mAccountName + 
+				" AccountType:" + mAccountType +
+				" AccessLevel:" + mAccessLevel +
+				" SyncEvents:" + mSyncEvents;
 	}
 }

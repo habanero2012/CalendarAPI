@@ -21,4 +21,14 @@ public class CalendarAccountCheckerV4 extends CalendarAccountChecker {
 		return CalendarContract.Calendars.ACCOUNT_TYPE;
 	}
 
+	@Override
+	public String getCalendarColumnAccessLevel() {
+		return CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL;
+	}
+
+	@Override
+	public String getCalendarColumnSyncEvents() {
+		return CalendarContract.Calendars.SYNC_EVENTS;
+	}
+
 }

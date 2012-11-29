@@ -20,4 +20,14 @@ public class CalendarAccountCheckerV2 extends CalendarAccountChecker{
 		return "_sync_account_type";
 	}
 
+	@Override
+	public String getCalendarColumnAccessLevel() {
+		return "access_level";
+	}
+
+	@Override
+	public String getCalendarColumnSyncEvents() {
+		return "sync_events";
+	}
+
 }
