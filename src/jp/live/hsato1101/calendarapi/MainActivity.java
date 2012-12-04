@@ -1,7 +1,9 @@
 package jp.live.hsato1101.calendarapi;
 
 import java.util.Calendar;
+import java.util.List;
 
+import jp.live.hsato1101.calendar.CalendarInfo;
 import jp.live.hsato1101.calendar.GoogleCalendar;
 import jp.live.hsato1101.calendar.GoogleCalendarFactory;
 import jp.live.hsato1101.calendar.Event;
@@ -22,7 +24,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        mGoogleCalendar = GoogleCalendarFactory.getInstance(this);
+        List<CalendarInfo> list = GoogleCalendarFactory.getCalendarInfoHasGoogleSyncAccount(this);
+        CalendarInfo info = list.get(0);
+        mGoogleCalendar = GoogleCalendarFactory.getInstance(this, info.getId());
         
         final TextView textView = (TextView)findViewById(R.id.textView1);
         Button whenByBtn = (Button)findViewById(R.id.when_by_btn);

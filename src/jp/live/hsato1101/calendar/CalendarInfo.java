@@ -39,7 +39,9 @@ public class CalendarInfo {
 	}
 	
 	private boolean isGoogleAccount() {
-		return mAccountName.matches(".*@gmail\\.com$");
+		// 独自ドメイン対応のため条件をはずす
+		//return mAccountName.matches(".*@gmail\\.com$");
+		return true;
 	}
 	
 	private boolean isSyncAccount() {

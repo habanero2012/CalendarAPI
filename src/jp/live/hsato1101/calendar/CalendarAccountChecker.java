@@ -1,5 +1,8 @@
 package jp.live.hsato1101.calendar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -21,13 +24,13 @@ public abstract class CalendarAccountChecker {
 		mURIs = uris;
 	}
 	
-	public CalendarInfo getGoogleSyncAccount() {
+	public List<CalendarInfo> getGoogleSyncAccount() {
+		List<CalendarInfo> list = new ArrayList<CalendarInfo>();
 		Cursor c = mResolver.query(mURIs.getCalendarUri(), null, null, null, BaseColumns._ID + " ASC");
 		if(c == null) {
-			return null;
+			return list;
 		}
 		
-		CalendarInfo info = null;
 		try {
 			if (c.moveToFirst()) {
 				int idColumn = c.getColumnIndex(BaseColumns._ID);
@@ -44,7 +47,7 @@ public abstract class CalendarAccountChecker {
 							c.getString(accountSyncEvents));
 					Log.i("CalendarInfo", tmp.toString());
 					if(tmp.isGoogleSyncAccount()) {
-						info = tmp;
+						list.add(tmp);
 					}
 				} while(c.moveToNext());
 			}
@@ -53,6 +56,6 @@ public abstract class CalendarAccountChecker {
 		}
 		
 		
-		return info;
+		return list;
 	}
 }

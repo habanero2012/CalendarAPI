@@ -1,5 +1,7 @@
 package jp.live.hsato1101.calendar;
 
+import java.util.List;
+
 import jp.live.hsato1101.calendar.v2_1.CalendarAccountCheckerV2;
 import jp.live.hsato1101.calendar.v2_1.ContentURIsV2_1;
 import jp.live.hsato1101.calendar.v2_1.EventColumnsV2_1;
@@ -14,6 +16,8 @@ import android.util.Log;
 
 public class GoogleCalendarFactory {
 	
+	private static final String TAG = "GoogleCalendarFactoryTAG";
+	
 	private static final int ICE_CREAM_SANDWICH = 14;
 	private static final int FROYO = 8;
 	
@@ -25,24 +29,17 @@ public class GoogleCalendarFactory {
 	 * @param context
 	 * @return GoogleCalendar
 	 */
-	public static GoogleCalendar getInstance(Context context) {
-		CalendarInfo info = getCalendarInfoHasGoogleSyncAccount(context);
-		if(info == null) {
-			return null;
-		}
-		Log.i("GoogleCalendarFactory", "CalendarInfo found:" + info.toString());
-		
-		
+	public static GoogleCalendar getInstance(Context context, int calendarId) {
 		if(Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH) {
-			return new GoogleCalendar(context, new EventColumnsV4(), new ContentURIsV4(), info.getId());
+			return new GoogleCalendar(context, new EventColumnsV4(), new ContentURIsV4(), calendarId);
 		} else if(Build.VERSION.SDK_INT >= FROYO){
-			return new GoogleCalendar(context, new EventColumnsV2_2(), new ContentURIsV2_2(), info.getId());
+			return new GoogleCalendar(context, new EventColumnsV2_2(), new ContentURIsV2_2(), calendarId);
 		} else {
-			return new GoogleCalendar(context, new EventColumnsV2_1(), new ContentURIsV2_1(), info.getId());
+			return new GoogleCalendar(context, new EventColumnsV2_1(), new ContentURIsV2_1(), calendarId);
 		}
 	}
 	
-	private static CalendarInfo getCalendarInfoHasGoogleSyncAccount(Context context) {
+	public static List<CalendarInfo> getCalendarInfoHasGoogleSyncAccount(Context context) {
 		CalendarAccountChecker checker;
 		if(Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH) {
 			checker = new CalendarAccountCheckerV4(context, new ContentURIsV4());
