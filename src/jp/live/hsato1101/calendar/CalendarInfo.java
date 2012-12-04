@@ -20,6 +20,10 @@ public class CalendarInfo {
 		return mId;
 	}
 	
+	public String getAccountName() {
+		return mAccountName;
+	}
+	
 	public boolean isGoogleSyncAccount() {
 		if(isGoogleAccount() && 
 			isSyncAccount() &&
