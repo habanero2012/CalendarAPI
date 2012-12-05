@@ -24,6 +24,11 @@ public abstract class CalendarAccountChecker {
 		mURIs = uris;
 	}
 	
+	/**
+	 * 同期可能なCalendar情報のリストを取得する
+	 * 
+	 * @return
+	 */
 	public List<CalendarInfo> getGoogleSyncAccount() {
 		List<CalendarInfo> list = new ArrayList<CalendarInfo>();
 		Cursor c = mResolver.query(mURIs.getCalendarUri(), null, null, null, BaseColumns._ID + " ASC");

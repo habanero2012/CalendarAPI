@@ -25,23 +25,56 @@ public class GoogleCalendar {
 		mCalendarId = calendar_id;
 	}
 
+	/**
+	 * Eventを新規に作成する
+	 * @param e 新規に作成されるEvent
+	 * @return eventIdが末尾に追加されたCONTENT_URI
+	 */
 	public Uri insert(Event e) {
 		ContentValues values = mEventColumns.values(e, mCalendarId);
 		return mResolver.insert(mURIs.getEventUri(), values);
 	}
 
+	/**
+	 * Eventをアップデートする
+	 * 
+	 * @param e アップデートするEvent
+	 * @return 更新が成功したEventの数
+	 */
 	public int update(Event e) {
     	ContentValues values = mEventColumns.values(e);
     	return mResolver.update(mURIs.toUri(e), values, null, null);
 	}
 
+	/**
+	 * Eventを削除する
+	 * @param e 削除されるEvent
+	 * @return 削除が成功したEventの数
+	 */
 	public int delete(Event e) {
 		return mResolver.delete(mURIs.toUri(e), null, null);
 	}
 	
 	public Event[] select(Calendar start) {
-		String[] selection = {"" + start.getTimeInMillis()};
-		Cursor c = mResolver.query(mURIs.getEventUri(), null, mEventColumns.getDTStart() + ">= ?", selection, mEventColumns.getDTStart() + " ASC");
+		String[] selection = {"" + start.getTimeInMillis(), "" + mCalendarId};
+		Cursor c = mResolver.query(mURIs.getEventUri(), null, mEventColumns.getDTStart() + ">= ? AND " + mEventColumns.getCalendarId() + " = ?"
+				, selection, mEventColumns.getDTStart() + " ASC");
+		Event[] events = fetchEvents(c, BaseColumns._ID);
+		c.close();
+		return events;
+	}
+	
+	/**
+	 * カレンダーのEventを取得する
+	 * 
+	 * @param projection
+	 * @param selection
+	 * @param selectionArgs
+	 * @param sortOrder
+	 * @return
+	 */
+	public Event[] select(String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+		Cursor c = mResolver.query(mURIs.getEventUri(), projection, selection, selectionArgs, sortOrder);
 		Event[] events = fetchEvents(c, BaseColumns._ID);
 		c.close();
 		return events;

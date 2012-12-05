@@ -12,11 +12,9 @@ import jp.live.hsato1101.calendar.v4.ContentURIsV4;
 import jp.live.hsato1101.calendar.v4.EventColumnsV4;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 public class GoogleCalendarFactory {
 	
-	private static final String TAG = "GoogleCalendarFactoryTAG";
 	
 	private static final int ICE_CREAM_SANDWICH = 14;
 	private static final int FROYO = 8;
@@ -39,6 +37,12 @@ public class GoogleCalendarFactory {
 		}
 	}
 	
+	/**
+	 * 同期可能なCalendarの一覧を取得する
+	 * 
+	 * @param context
+	 * @return
+	 */
 	public static List<CalendarInfo> getCalendarInfoHasGoogleSyncAccount(Context context) {
 		CalendarAccountChecker checker;
 		if(Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH) {
@@ -50,5 +54,19 @@ public class GoogleCalendarFactory {
 		}
 
 		return checker.getGoogleSyncAccount();
+	}
+	
+	/**
+	 * Android Versionごとの適切なEventColumnを取得する
+	 * @return
+	 */
+	public static EventColumns getEventColumns() {
+		if(Build.VERSION.SDK_INT >= ICE_CREAM_SANDWICH) {
+			return new EventColumnsV4();
+		} else if(Build.VERSION.SDK_INT >= FROYO){
+			return new EventColumnsV2_2();
+		} else {
+			return new EventColumnsV2_1();
+		}
 	}
 }
