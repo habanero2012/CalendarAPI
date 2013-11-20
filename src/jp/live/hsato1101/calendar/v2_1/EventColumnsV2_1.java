@@ -16,6 +16,9 @@ public class EventColumnsV2_1 extends EventColumns {
 	public static final String CALENDAR_ID = "calendar_id";
 	public static final String ALL_DAY = "allDay";
 	public static final String LAST_DATE = "lastDate";
+	public static final String RRULE = "rrule";
+	public static final String RDATE = "rdate";
+	public static final String DURATION = "duration";
 
 	public static final String SORT_ORDER = BEGIN + " ASC, " + END + " DESC, "
 			+ TITLE + " ASC";
@@ -83,6 +86,21 @@ public class EventColumnsV2_1 extends EventColumns {
 	@Override
 	public String getLastDate() {
 		return LAST_DATE;
+	}
+
+	@Override
+	public String getRRule() {
+		return RRULE;
+	}
+
+	@Override
+	public String getRDate() {
+		return RDATE;
+	}
+
+	@Override
+	public String getDuration() {
+		return DURATION;
 	}
 
 }

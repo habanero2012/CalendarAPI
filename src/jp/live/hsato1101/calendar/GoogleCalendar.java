@@ -10,6 +10,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 public class GoogleCalendar {
 	
@@ -32,6 +33,7 @@ public class GoogleCalendar {
 	 */
 	public Uri insert(Event e) {
 		ContentValues values = mEventColumns.values(e, mCalendarId);
+		Log.i("GoogleCalendar.insert", values.toString());
 		return mResolver.insert(mURIs.getEventUri(), values);
 	}
 
@@ -42,8 +44,9 @@ public class GoogleCalendar {
 	 * @return 更新が成功したEventの数
 	 */
 	public int update(Event e) {
-    	ContentValues values = mEventColumns.values(e);
-    	return mResolver.update(mURIs.toUri(e), values, null, null);
+		ContentValues values = mEventColumns.values(e);
+		Log.i("GoogleCalendar.update", values.toString());
+		return mResolver.update(mURIs.toUri(e), values, null, null);
 	}
 
 	/**
@@ -102,7 +105,9 @@ public class GoogleCalendar {
 			//int calendarIdColumn = c.getColumnIndex(mEventColumns.getCalendarId());
 			int allDayColumn = c.getColumnIndex(mEventColumns.getAllDay());
 			int lastDateColumn = c.getColumnIndex(mEventColumns.getLastDate());
-			
+			int rruleColumn = c.getColumnIndex(mEventColumns.getRRule());
+			int rdateColumn = c.getColumnIndex(mEventColumns.getRDate());
+			int durationColumn = c.getColumnIndex(mEventColumns.getDuration());
 			do {
 				Calendar startTime = new GregorianCalendar();
 				startTime.setTimeInMillis(c.getLong(dtStartColumn));
@@ -115,7 +120,8 @@ public class GoogleCalendar {
 				Event s = new Event(c.getLong(eventIdColumn),
 						c.getString(titleColumn), c.getString(descColumn),
 						c.getString(eventLocationColumn), startTime, endTime,
-						c.getInt(allDayColumn));
+						c.getInt(allDayColumn), c.getString(rruleColumn), c.getString(rdateColumn),
+						c.getString(durationColumn));
 				s.setLastDate(lastDate);
 				result.add(s);
 			} while (c.moveToNext());

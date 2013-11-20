@@ -1,9 +1,11 @@
 package jp.live.hsato1101.calendar.v4;
 
+import android.annotation.SuppressLint;
 import android.provider.CalendarContract.Events;
 import android.provider.CalendarContract.Instances;
 import jp.live.hsato1101.calendar.EventColumns;
 
+@SuppressLint("InlinedApi")
 public class EventColumnsV4 extends EventColumns {
 
 	private static final String SORT_ORDER = Instances.BEGIN + " ASC, "
@@ -72,6 +74,21 @@ public class EventColumnsV4 extends EventColumns {
 	@Override
 	public String getLastDate() {
 		return Events.LAST_DATE;
+	}
+
+	@Override
+	public String getRRule() {
+		return Events.RRULE;
+	}
+
+	@Override
+	public String getRDate() {
+		return Events.RDATE;
+	}
+
+	@Override
+	public String getDuration() {
+		return Events.DURATION;
 	}
 
 }

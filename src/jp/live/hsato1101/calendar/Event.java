@@ -15,9 +15,13 @@ public class Event {
 	private Calendar mEnd;
 	private int mAllDay;
 	private Calendar mLastDate;
+	private String mRRule;
+	private String mRDate;
+	private String mDuration;
 	
 	public Event(long id, String title, String description,
-			String eventLocation, Calendar start, Calendar end, int allday) {
+			String eventLocation, Calendar start, Calendar end, int allday,
+			String rrule, String rdate, String duration) {
 		mId = id;
 		mTitle = title;
 		mDescription = description;
@@ -25,6 +29,9 @@ public class Event {
 		mStart = (Calendar)start.clone();
 		mEnd = (Calendar)end.clone();
 		mAllDay = allday;
+		mRRule = rrule;
+		mRDate = rdate;
+		mDuration = duration;
 	}
 
 	public long getId(){
@@ -91,6 +98,26 @@ public class Event {
 		return (Calendar) mLastDate.clone();
 	}
 	
+	public String getRRule() {
+		return mRRule;
+	}
+	
+	public void setRRule(String rule) {
+		mRRule = rule;
+	}
+	
+	public String getRDate() {
+		return mRDate;
+	}
+	
+	public void setDuration(String duration) {
+		mDuration = duration;
+	}
+	
+	public String getDuration() {
+		return mDuration;
+	}
+	
 	
 	@Override
 	public String toString() {
@@ -98,7 +125,10 @@ public class Event {
 				" EventLocation:" + mEventLocation + 
 				" Start:" + mDateFormat.format(mStart.getTime()) +
 				" End:" + mDateFormat.format(mEnd.getTime()) +
-				" AllDay:" + mAllDay;
+				" AllDay:" + mAllDay +
+				" RRule:" + mRRule +
+				" RDate:" + mRDate +
+				" Duration:" + mDuration;
 		if(mLastDate !=null) {
 			log += " LastDate:" + mDateFormat.format(mLastDate.getTime());
 		}
